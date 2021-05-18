@@ -3,36 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package PruebaUsuario;
 
 /**
  *
  * @author kevinalexanderlimarecinos
  */
-public class Persona {
-    
-    private int ID; 
-    private String Nombre;
-    private String Apellido; 
-    private String Direccion; 
-    private String Telefono; 
+public class variables {
+    String Nombre; 
+    String Apellido;
+    String Direccion; 
+    String Telefono; 
 
-    public Persona(String Nombre, String Apellido, String Direccion, String Telefono) {
+    public variables(String Nombre, String Apellido, String Direccion, String Telefono) {
         this.Nombre = Nombre;
         this.Apellido = Apellido;
         this.Direccion = Direccion;
         this.Telefono = Telefono;
-    }
-
-    public Persona(){
-        
-    }
-    
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     public String getNombre() {

@@ -2,7 +2,10 @@
 import conections.MySQLConector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,16 +20,18 @@ import javax.swing.JOptionPane;
 public class PersonForm extends javax.swing.JFrame {
    
 
-    MySQLConector ConectorSQL = new MySQLConector();
-    Connection conexion = ConectorSQL.Conectar();
+    MySQLConector ConectorDB = new MySQLConector();
+    Connection conexiondb = ConectorDB.Conectar();
+    
     
     /**
      * Creates new form PersonForm
      */
     public PersonForm() {
         initComponents();
+        MostrarDatosDB();
         
-        // Comando para centrar la ventana al ejecutarla. 
+        // Comando para centrar la ventana al ejecutarla se centre siempre en la pantalla.  
         this.setLocationRelativeTo(null);
     }
 
@@ -40,6 +45,7 @@ public class PersonForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jTextField4 = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -66,6 +72,17 @@ public class PersonForm extends javax.swing.JFrame {
                 jTextField4ActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registro Usuario - Vista Administrador");
@@ -147,10 +164,6 @@ public class PersonForm extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addGap(30, 30, 30))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +173,7 @@ public class PersonForm extends javax.swing.JFrame {
                     .addComponent(jToggleButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -179,6 +192,10 @@ public class PersonForm extends javax.swing.JFrame {
                             .addComponent(txtApellido)
                             .addComponent(txtNombre))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(17, 17, 17))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,6 +245,15 @@ public class PersonForm extends javax.swing.JFrame {
 
             }
         ));
+        tblRegistrodb.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tblRegistrodbAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         jScrollPane1.setViewportView(tblRegistrodb);
 
         jLabel8.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
@@ -284,47 +310,62 @@ public class PersonForm extends javax.swing.JFrame {
         txtTelefono.setText("");
     }
     
-    private void GuardarPersona(){
+    private Persona GuardarPersona(){
+         
         
         
         try {
             Persona NuevaPersona = new Persona();
-
-            NuevaPersona.setNombre(txtNombre.getText().toString());
-            NuevaPersona.setApellido(txtApellido.getText().toString());
-            NuevaPersona.setDireccion(txtDireccion.getText().toString());
-            NuevaPersona.setTelefono(txtTelefono.getText().toString());
             
-            String Insertdb = "INSERT INTO `Persondb` (`Nombre`, "
-                    + "`Apellido`,"
-                    + " `Dirección`, "
-                    + "`Teléfono`) "
-                    + "VALUES (?, ?, ?, ?)";
-                       // ? = Comodin 
-                       
-            PreparedStatement PST = conexion.prepareStatement(Insertdb);
-            // envió db
-            PST.setString(1, NuevaPersona.getNombre());
-            PST.setString(2, NuevaPersona.getApellido());
-            PST.setString(3, NuevaPersona.getDireccion());
-            PST.setString(4, NuevaPersona.getTelefono());
-           
-            PST.execute();
+            String Insertdb = "INSERT INTO `Person` (`Nombre` , `Apellido`, `Direción`, `Teléfono`) "
+                    + "VALUES ('" + NuevaPersona.getNombre() +"' "
+                    + "'"+ NuevaPersona.getApellido() +"' '" + NuevaPersona.getDireccion() + "'"
+                    + "'" + NuevaPersona.getTelefono() +"')";
+            
+            
+            
             // Cada vez que yo ingrese un nuevo usuario, se eliminara y me mandará un mensaje diciendo que el usuario se guardo. 
             Eliminar();
+            
+            //mensaje exitoso :) 
             JOptionPane.showMessageDialog(null, "Guardado exitosamente");
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No se pudo guardar");
         }
+        return null;
         
     }
     
     private void MostrarDatosDB(){
+        
         try{
+            String[] TitulosDB = {"ID", "Nombre", "Apellido", "Direción", "Teléfono"};
+            String[] Registros = new String [5];
             
+            DefaultTableModel Diseñodb = new DefaultTableModel(null, TitulosDB);
+            
+            String Consultadb = "SELECT * FROM sql10413110.Person";
+            Statement Datosdb = conexiondb.createStatement(); 
+            
+            ResultSet result = Datosdb.executeQuery(Consultadb);
+            
+            tblRegistrodb.setModel(Diseñodb);
+            
+            while (result.next()){
+                Registros[0] = result.getString("id");
+                Registros[1] = result.getString("Nombre");
+                Registros[2] = result.getString("Apellido");
+                Registros[3] = result.getString("Direción");
+                Registros[4] = result.getString("Teléfono");
+                
+                Diseñodb.addRow(Registros);
+               
+            }
             
         } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error al mostrar datos");
+            
+            JOptionPane.showMessageDialog(null, "Error al mostrar datos ");
         }
     }
     
@@ -365,6 +406,10 @@ public class PersonForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         Eliminar();
     }//GEN-LAST:event_jToggleButton4ActionPerformed
+
+    private void tblRegistrodbAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tblRegistrodbAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblRegistrodbAncestorAdded
 
     /**
      * @param args the command line arguments
@@ -415,6 +460,7 @@ public class PersonForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JToggleButton jToggleButton4;
