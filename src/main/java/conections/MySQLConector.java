@@ -7,22 +7,40 @@ package conections;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author kevinalexanderlimarecinos
  */
+
+
+    /**
+    Datos de Correo: 
+    Correo eléctronico de google creatorsperson@gmail.com
+    Contraseña de correo eléctronico: UMG2021IngeSIS
+     
+        Base de Datos: 
+    Host: sql10.freesqldatabase.com 
+    Database name: sql10413110
+    Database user: sql10413110 
+    Database password: QC3L6VqdDt 
+    Port number: 3306
+     
+    Base de datos creada en FreeSQLdatabase
+    */
+    
 public class MySQLConector {
     
-    Connection conectar = null; 
+    Connection conectardb = null; 
     
     public Connection Conectar(){
         
         // Datos para crear la conexión a la Base de Datos
-        String DB = "jdbc:mysql://localhost";
-        String Usuario = "Kevinisky27"; // kevinisky27
-        String Password = "iTwA-8CPqLDu)E/9"; //7Pj@!K_/SXgRxBmX
+        String DB = "jdbc:mysql://sql10.freesqldatabase.com";
+        String Usuario = "sql10413110"; 
+        String Password = "QC3L6VqdDt"; 
          
         
         
@@ -30,19 +48,19 @@ public class MySQLConector {
         try{
             
            Class.forName("com.mysql.cj.jdbc.Driver"); 
-           conectar = DriverManager.getConnection(DB, Usuario, Password);
+           conectardb = DriverManager.getConnection(DB, Usuario, Password);
            
            // Este es el mensaje que se espera, ya que es un mensaje de una conexión establecida con éxito
            JOptionPane.showMessageDialog(null, "Conexión establecida con la Base de Datos");
            
         } catch (Exception e) {
-            e.printStackTrace();
             // Si al momento de conectarse a la base de datos nos aparece un error, mostrará este mensaje
             //JOptionPane.showMessageDialog(null, "Error al Conectarse a la Base de Datos");
-            JOptionPane.showMessageDialog(null,"Error " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al conectar la Base de Datos");
         }
         
-        return conectar;
+        return conectardb;
     }
+    
     
 }
