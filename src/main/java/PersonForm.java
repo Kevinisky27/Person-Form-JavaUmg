@@ -315,15 +315,19 @@ public class PersonForm extends javax.swing.JFrame {
         
         
         try {
+            
             Persona NuevaPersona = new Persona();
+            NuevaPersona.setNombre(txtNombre.getText());
+            NuevaPersona.setApellido(txtApellido.getText());
+            NuevaPersona.setDireccion(txtDireccion.getText());
+            NuevaPersona.setTelefono(txtTelefono.getText());
             
-            String Insertdb = "INSERT INTO `Person` (`Nombre` , `Apellido`, `Direción`, `Teléfono`) "
-                    + "VALUES ('" + NuevaPersona.getNombre() +"' "
-                    + "'"+ NuevaPersona.getApellido() +"' '" + NuevaPersona.getDireccion() + "'"
-                    + "'" + NuevaPersona.getTelefono() +"')";
+            PreparedStatement Insertdb = conexiondb.prepareStatement("INSERT INTO Person(Nombre, Apellido, Direción, Teléfono) "
+                    + "VALUES('"+ NuevaPersona.getNombre() + "' '"+ NuevaPersona.getApellido() +"' '"+ NuevaPersona.getDireccion() +"'"
+                            + " '"+ NuevaPersona.getTelefono() +"' ) ");
+           
             
-            
-            
+            Insertdb.execute();
             // Cada vez que yo ingrese un nuevo usuario, se eliminara y me mandará un mensaje diciendo que el usuario se guardo. 
             Eliminar();
             
