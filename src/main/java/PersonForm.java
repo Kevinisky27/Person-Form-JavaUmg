@@ -3,9 +3,11 @@ import conections.MySQLConector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -289,6 +291,11 @@ public class PersonForm extends javax.swing.JFrame {
         jLabel8.setText("by ♥ su grupo Favorito");
 
         btnBuscarDB.setText("BUSCAR");
+        btnBuscarDB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarDBActionPerformed(evt);
+            }
+        });
 
         txtBuscarDB.setCaretColor(new java.awt.Color(0, 0, 77));
 
@@ -350,23 +357,30 @@ public class PersonForm extends javax.swing.JFrame {
     }
     
     private Persona GuardarPersona(){
-         
+        String sql;
+        PreparedStatement ps;
         
-        
+
         try {
             
-            Persona NuevaPersona = new Persona();
-            NuevaPersona.setNombre(txtNombre.getText());
-            NuevaPersona.setApellido(txtApellido.getText());
-            NuevaPersona.setDireccion(txtDireccion.getText());
-            NuevaPersona.setTelefono(txtTelefono.getText());
-            
-            PreparedStatement Insertdb = conexiondb.prepareStatement("INSERT INTO `Person` (`Nombre`, `Apellido`, `Dirección`, `Teléfono`) "
-                +   "VALUES ('?', '?', '?', '?'");
+            sql = "insert into Person values (?,?,?,?,?)";
             
             
+            
+            //Connection= DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com", "sql10413110", "QC3L6VqdDt");
+            ps = conexiondb.prepareStatement(sql);
+            
+             //insertTableSQL = "INSERT INTO Person ('Nombre', 'Apellido', 'Dirección', 'Teléfono') "
+             //+ "VALUES ('a', 's', 'd', '12345678')";
+              
           
-            //Insertdb.executeUpdate();
+            ps.setString(1, "");
+            ps.setString(2, "a");
+            ps.setString(3, "b");
+            ps.setString(4, "c");
+            ps.setString(5, "123456");
+            ps.executeUpdate();
+            
             // Cada vez que yo ingrese un nuevo usuario, se eliminara y me mandará un mensaje diciendo que el usuario se guardo. 
             Limpiar();
             
@@ -475,6 +489,44 @@ public class PersonForm extends javax.swing.JFrame {
         
     }
     
+    public void BuscarNombredb (){
+        Statement stmt;
+        ResultSet rs; 
+        ResultSetMetaData metadata;
+        
+        String Nombre;
+        Nombre = (txtBuscarDB.getText());
+        
+        
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            this.tblRegistrodb.setModel(modelo);
+            stmt = conexiondb.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM sql10413110.Person WHERE Nombre '%" + Nombre + "%' ");
+            
+            metadata = rs.getMetaData();
+            
+            int CantidadColumnas = metadata.getColumnCount();
+            
+            for (int i = 1; i <= CantidadColumnas; i ++ ){
+                modelo.addColumn(metadata.getColumnLabel(i));
+            }
+            
+            while(rs.next()){
+                Object [] Fila = new Object[CantidadColumnas];
+                for (int i = 0; i < CantidadColumnas; i ++){
+                    Fila[i] = rs.getObject(i+1);
+                }
+                
+                modelo.addRow(Fila);    
+            }
+            rs.close();
+        } catch (Exception e) {
+            
+        }     
+    }
+    
+    
     void EliminarDatodb(){
         
     }
@@ -496,6 +548,7 @@ public class PersonForm extends javax.swing.JFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
         GuardarPersona();
+        MostrarDatosDB();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
@@ -531,6 +584,19 @@ public class PersonForm extends javax.swing.JFrame {
     private void tblRegistrodbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRegistrodbMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tblRegistrodbMouseClicked
+
+    private void btnBuscarDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarDBActionPerformed
+        // TODO add your handling code here:
+        if (txtBuscarDB.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Ingresa Nombre para buscar en la Base de Datos");
+        } else {
+            
+            if (txtBuscarDB.getText().isEmpty()){
+                BuscarNombredb();
+            } 
+        }
+        
+    }//GEN-LAST:event_btnBuscarDBActionPerformed
 
     /**
      * @param args the command line arguments
