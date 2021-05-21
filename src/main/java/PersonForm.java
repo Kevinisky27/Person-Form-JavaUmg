@@ -357,29 +357,19 @@ public class PersonForm extends javax.swing.JFrame {
     }
     
     private Persona GuardarPersona(){
-        String sql;
-        PreparedStatement ps;
         
-
+        String sql =  "INSERT INTO sql10413110.Person (`Nombre`, `Apellido`, `Dirección`, `Teléfono` )"
+                    + "VALUES(?, ?, ?, ?);";
+        
         try {
             
-            sql = "insert into Person values (?,?,?,?,?)";
+            PreparedStatement ppt = conexiondb.prepareStatement(sql);
             
-            
-            
-            //Connection= DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com", "sql10413110", "QC3L6VqdDt");
-            ps = conexiondb.prepareStatement(sql);
-            
-             //insertTableSQL = "INSERT INTO Person ('Nombre', 'Apellido', 'Dirección', 'Teléfono') "
-             //+ "VALUES ('a', 's', 'd', '12345678')";
-              
-          
-            ps.setString(1, "");
-            ps.setString(2, "a");
-            ps.setString(3, "b");
-            ps.setString(4, "c");
-            ps.setString(5, "123456");
-            ps.executeUpdate();
+            ppt.setString(1, txtNombre.getText().trim());
+            ppt.setString(2, txtApellido.getText().trim());
+            ppt.setString(3, txtDireccion.getText().trim());
+            ppt.setString(4, txtTelefono.getText().trim());
+            ppt.executeUpdate();
             
             // Cada vez que yo ingrese un nuevo usuario, se eliminara y me mandará un mensaje diciendo que el usuario se guardo. 
             Limpiar();
@@ -388,7 +378,7 @@ public class PersonForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Guardado exitosamente");
             
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No se pudo guardar");
+            JOptionPane.showMessageDialog(null, "Error al momento de guardar los datos, en base de datos.");
         }
         return null;
         
@@ -432,6 +422,7 @@ public class PersonForm extends javax.swing.JFrame {
     void ModificarDatodb(){
         int Fila = tblRegistrodb.getSelectedRow();
         
+        
         if (Fila >= 0 ){
             txtNombre.setText(tblRegistrodb.getValueAt(Fila, 1).toString());
             txtApellido.setText(tblRegistrodb.getValueAt(Fila, 2).toString());
@@ -445,48 +436,24 @@ public class PersonForm extends javax.swing.JFrame {
     }
     
     void ActualizarDatosdb(){
-        Persona Actualizardb = new Persona();
         
-        Actualizardb.setNombre(txtNombre.getText().toString());
-        Actualizardb.setApellido(txtApellido.getText().toString());
-        Actualizardb.setDireccion(txtDireccion.getText().toString());
-        Actualizardb.setTelefono(txtTelefono.getText().toString());
-        
-        int Fila = tblRegistrodb.getSelectedRow();
-        String id = tblRegistrodb.getValueAt(Fila, 0).toString();
+            String Sql = "UPDATE INTO sql10413110.Person SET (Nombre = '"+ txtNombre.getText().trim() + "', Apellido = '"+ txtApellido.getText().trim() +"', "
+                + " Dirección = '"+ txtDireccion.getText().trim() +"', Teléfono = '"+ txtTelefono.getText().trim() +"' WHERE )";
         
         try{
-           
-           
             
-           String Insert = "UPDATE 'Person' set"
-                   + "Nombre = ? ,"
-                   + "Apellido = ? ,"
-                   + "Direccion = ? ,"
-                   + "Telefono = ? , "
-                   + "WHERE ID = ?";
-           
-            PreparedStatement pst = conexiondb.prepareStatement(Insert);
+            PreparedStatement sql = conexiondb.prepareStatement(Sql);
             
-            pst.setString(1, Actualizardb.getNombre());
-            pst.setString(2, Actualizardb.getApellido());
-            pst.setString(3, Actualizardb.getDireccion());
-            pst.setString(4, Actualizardb.getTelefono());
-            pst.setString(5, id);
-            
-            
-            
+            sql.executeUpdate();
             
             Limpiar();
             MostrarDatosDB();
            
-           JOptionPane.showMessageDialog(null, "Actuzalizado exitosamente");
+           JOptionPane.showMessageDialog(null, "Dato actuzalizado exitosamente");
           
         } catch(Exception e ){
-          
-            JOptionPane.showMessageDialog(null, "Error al actualizar");
+            JOptionPane.showMessageDialog(null, "Error al actualizar los datos");
         }
-        
     }
     
     public void BuscarNombredb (){
@@ -529,6 +496,25 @@ public class PersonForm extends javax.swing.JFrame {
     
     void EliminarDatodb(){
         
+        int Fila = tblRegistrodb.getSelectedRow();
+        String valor = tblRegistrodb.getValueAt(Fila, 0).toString();
+        
+        String sql = "DELETE FROM sql10413110.Person WHERE Id = '"+ valor +"' ";
+        
+        if (Fila >= 0 ){
+            try {
+                PreparedStatement pps = conexiondb.prepareStatement(sql);
+                pps.executeUpdate();
+                
+                MostrarDatosDB();
+                JOptionPane.showMessageDialog(null, "Usuario eliminado con éxito");
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "Error al eliminar los datos");
+            }
+            
+            
+        }
+        
     }
     
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
@@ -537,7 +523,7 @@ public class PersonForm extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Eliminación con éxito");
+        EliminarDatodb();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
