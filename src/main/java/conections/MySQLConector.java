@@ -16,11 +16,7 @@ import javax.swing.JOptionPane;
  */
 
 
-    /**
-    Datos de Correo: 
-    Correo eléctronico de google creatorsperson@gmail.com
-    Contraseña de correo eléctronico: UMG2021IngeSIS
-     
+    /*
         Base de Datos: 
     Host: sql10.freesqldatabase.com 
     Database name: sql10413110
