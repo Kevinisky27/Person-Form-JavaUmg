@@ -418,6 +418,8 @@ public class PersonForm extends javax.swing.JFrame {
         }
         
     }
+    
+    
     void Actualizar(){
         String sSQL = "UPDATE sql10413110.Person SET "
                 + "Nombre = ?"
