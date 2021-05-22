@@ -72,8 +72,6 @@ public class PersonForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblRegistrodb = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
-        btnBuscarDB = new javax.swing.JToggleButton();
-        txtBuscarDB = new javax.swing.JTextField();
 
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -290,15 +288,6 @@ public class PersonForm extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(115, 115, 115));
         jLabel8.setText("by ♥ su grupo Favorito");
 
-        btnBuscarDB.setText("BUSCAR");
-        btnBuscarDB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarDBActionPerformed(evt);
-            }
-        });
-
-        txtBuscarDB.setCaretColor(new java.awt.Color(0, 0, 77));
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -311,10 +300,6 @@ public class PersonForm extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel8))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtBuscarDB)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscarDB, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -323,11 +308,7 @@ public class PersonForm extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnBuscarDB, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(txtBuscarDB))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -354,32 +335,23 @@ public class PersonForm extends javax.swing.JFrame {
         txtApellido.setText("");
         txtDireccion.setText("");
         txtTelefono.setText("");
+        
     }
     
     private Persona GuardarPersona(){
-        String sql;
-        PreparedStatement ps;
         
-
+        String sql =  "INSERT INTO sql10413110.Person (`Nombre`, `Apellido`, `Dirección`, `Teléfono` )"
+                    + "VALUES(?, ?, ?, ?);";
+        
         try {
             
-            sql = "insert into Person values (?,?,?,?,?)";
+            PreparedStatement ppt = conexiondb.prepareStatement(sql);
             
-            
-            
-            //Connection= DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com", "sql10413110", "QC3L6VqdDt");
-            ps = conexiondb.prepareStatement(sql);
-            
-             //insertTableSQL = "INSERT INTO Person ('Nombre', 'Apellido', 'Dirección', 'Teléfono') "
-             //+ "VALUES ('a', 's', 'd', '12345678')";
-              
-          
-            ps.setString(1, "");
-            ps.setString(2, "a");
-            ps.setString(3, "b");
-            ps.setString(4, "c");
-            ps.setString(5, "123456");
-            ps.executeUpdate();
+            ppt.setString(1, txtNombre.getText().trim());
+            ppt.setString(2, txtApellido.getText().trim());
+            ppt.setString(3, txtDireccion.getText().trim());
+            ppt.setString(4, txtTelefono.getText().trim());
+            ppt.executeUpdate();
             
             // Cada vez que yo ingrese un nuevo usuario, se eliminara y me mandará un mensaje diciendo que el usuario se guardo. 
             Limpiar();
@@ -388,7 +360,7 @@ public class PersonForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Guardado exitosamente");
             
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No se pudo guardar");
+            JOptionPane.showMessageDialog(null, "Error al momento de guardar los datos, en base de datos.");
         }
         return null;
         
@@ -432,6 +404,7 @@ public class PersonForm extends javax.swing.JFrame {
     void ModificarDatodb(){
         int Fila = tblRegistrodb.getSelectedRow();
         
+        
         if (Fila >= 0 ){
             txtNombre.setText(tblRegistrodb.getValueAt(Fila, 1).toString());
             txtApellido.setText(tblRegistrodb.getValueAt(Fila, 2).toString());
@@ -445,89 +418,64 @@ public class PersonForm extends javax.swing.JFrame {
     }
     
     void ActualizarDatosdb(){
-        Persona Actualizardb = new Persona();
-        
-        Actualizardb.setNombre(txtNombre.getText().toString());
-        Actualizardb.setApellido(txtApellido.getText().toString());
-        Actualizardb.setDireccion(txtDireccion.getText().toString());
-        Actualizardb.setTelefono(txtTelefono.getText().toString());
-        
-        int Fila = tblRegistrodb.getSelectedRow();
-        String id = tblRegistrodb.getValueAt(Fila, 0).toString();
         
         try{
-           
-           
+            Persona NuevaPersona = new Persona();
+            NuevaPersona.setNombre(txtNombre.getText());
+            NuevaPersona.setApellido(txtApellido.getText());
+            NuevaPersona.setDireccion(txtDireccion.getText());
+            NuevaPersona.setTelefono(txtTelefono.getText());
+         
+            int fila = tblRegistrodb.getSelectedRow();
+            String id = tblRegistrodb.getValueAt(fila, 0).toString();
+       
+            String Sql = "UPDATE FROM sql10413110.Person SET "
+                + "(Nombre = ?, "
+                + "Apellido = ?,"
+                + " Dirección = ? , "
+                + "Teléfono = ?"
+                + " WHERE id = ?" ;
             
-           String Insert = "UPDATE 'Person' set"
-                   + "Nombre = ? ,"
-                   + "Apellido = ? ,"
-                   + "Direccion = ? ,"
-                   + "Telefono = ? , "
-                   + "WHERE ID = ?";
-           
-            PreparedStatement pst = conexiondb.prepareStatement(Insert);
+            PreparedStatement pps = conexiondb.prepareStatement(Sql);
+            pps.setString(1, NuevaPersona.getNombre());
+            pps.setString(2, NuevaPersona.getApellido());
+            pps.setString(3, NuevaPersona.getDireccion());
+            pps.setString(4, NuevaPersona.getTelefono());
+            pps.setString(5, id);
             
-            pst.setString(1, Actualizardb.getNombre());
-            pst.setString(2, Actualizardb.getApellido());
-            pst.setString(3, Actualizardb.getDireccion());
-            pst.setString(4, Actualizardb.getTelefono());
-            pst.setString(5, id);
-            
-            
-            
+            pps.executeUpdate();
             
             Limpiar();
             MostrarDatosDB();
            
-           JOptionPane.showMessageDialog(null, "Actuzalizado exitosamente");
+           JOptionPane.showMessageDialog(null, "Dato actuzalizado exitosamente");
           
         } catch(Exception e ){
-          
-            JOptionPane.showMessageDialog(null, "Error al actualizar");
+            JOptionPane.showMessageDialog(null, "Error al actualizar los datos");
         }
-        
-    }
-    
-    public void BuscarNombredb (){
-        Statement stmt;
-        ResultSet rs; 
-        ResultSetMetaData metadata;
-        
-        String Nombre;
-        Nombre = (txtBuscarDB.getText());
-        
-        
-        try {
-            DefaultTableModel modelo = new DefaultTableModel();
-            this.tblRegistrodb.setModel(modelo);
-            stmt = conexiondb.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM sql10413110.Person WHERE Nombre '%" + Nombre + "%' ");
-            
-            metadata = rs.getMetaData();
-            
-            int CantidadColumnas = metadata.getColumnCount();
-            
-            for (int i = 1; i <= CantidadColumnas; i ++ ){
-                modelo.addColumn(metadata.getColumnLabel(i));
-            }
-            
-            while(rs.next()){
-                Object [] Fila = new Object[CantidadColumnas];
-                for (int i = 0; i < CantidadColumnas; i ++){
-                    Fila[i] = rs.getObject(i+1);
-                }
-                
-                modelo.addRow(Fila);    
-            }
-            rs.close();
-        } catch (Exception e) {
-            
-        }     
     }
     
     
     void EliminarDatodb(){
+        
+        int Fila = tblRegistrodb.getSelectedRow();
+        String valor = tblRegistrodb.getValueAt(Fila, 0).toString();
+        
+        String sql = "DELETE FROM sql10413110.Person WHERE Id = '"+ valor +"' ";
+        
+        if (Fila >= 0 ){
+            try {
+                PreparedStatement pps = conexiondb.prepareStatement(sql);
+                pps.executeUpdate();
+                
+                MostrarDatosDB();
+                JOptionPane.showMessageDialog(null, "Usuario eliminado con éxito");
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "Error al eliminar los datos");
+            }
+            
+            
+        }
         
     }
     
@@ -537,7 +485,7 @@ public class PersonForm extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Eliminación con éxito");
+        EliminarDatodb();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -585,19 +533,6 @@ public class PersonForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tblRegistrodbMouseClicked
 
-    private void btnBuscarDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarDBActionPerformed
-        // TODO add your handling code here:
-        if (txtBuscarDB.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Ingresa Nombre para buscar en la Base de Datos");
-        } else {
-            
-            if (txtBuscarDB.getText().isEmpty()){
-                BuscarNombredb();
-            } 
-        }
-        
-    }//GEN-LAST:event_btnBuscarDBActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -636,7 +571,6 @@ public class PersonForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnActualizar;
     private javax.swing.JToggleButton btnAgregar;
-    private javax.swing.JToggleButton btnBuscarDB;
     private javax.swing.JToggleButton btnEliminar;
     private javax.swing.JToggleButton btnModificar;
     private javax.swing.JColorChooser jColorChooser1;
@@ -658,7 +592,6 @@ public class PersonForm extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton4;
     public javax.swing.JTable tblRegistrodb;
     public javax.swing.JTextField txtApellido;
-    private javax.swing.JTextField txtBuscarDB;
     public javax.swing.JTextField txtDireccion;
     public javax.swing.JTextField txtNombre;
     public javax.swing.JTextField txtTelefono;
