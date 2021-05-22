@@ -287,7 +287,7 @@ public class PersonForm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblRegistrodb);
 
         jLabel8.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(115, 115, 115));
+        jLabel8.setForeground(new java.awt.Color(25, 9, 160));
         jLabel8.setText("by ♥ su grupo Favorito");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
