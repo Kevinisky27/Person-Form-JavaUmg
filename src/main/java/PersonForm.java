@@ -354,6 +354,7 @@ public class PersonForm extends javax.swing.JFrame {
             ppt.setString(3, txtDireccion.getText().trim());
             ppt.setString(4, txtTelefono.getText().trim());
             ppt.executeUpdate();
+            ppt.close();
             
             // Cada vez que yo ingrese un nuevo usuario, se eliminara y me mandará un mensaje diciendo que el usuario se guardo. 
             Limpiar();
@@ -442,6 +443,7 @@ public class PersonForm extends javax.swing.JFrame {
             pstm.setInt(5, Fila);
          
             pstm.executeUpdate();
+            pstm.close();
             
             Limpiar();
             MostrarDatosDB();
@@ -465,6 +467,7 @@ public class PersonForm extends javax.swing.JFrame {
             try {
                 PreparedStatement pps = conexiondb.prepareStatement(sql);
                 pps.executeUpdate();
+                pps.close();
                 
                 MostrarDatosDB();
                 JOptionPane.showMessageDialog(null, "Usuario eliminado con éxito");
