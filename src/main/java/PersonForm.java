@@ -418,36 +418,36 @@ public class PersonForm extends javax.swing.JFrame {
         }
         
     }
-    
-    void ActualizarDatodb(){
-        int Fila = tblRegistrodb.getSelectedRow();
-        String ID = tblRegistrodb.getValueAt(Fila, 0).toString();
+    void Actualizar(){
+        String sSQL = "UPDATE sql10413110.Person SET "
+                + "Nombre = ?"
+                + ",Apellido = ?"
+                + ",Dirección = ?"
+                + ",Teléfono = ?"
+                + ",id = ? "
+                + "WHERE id= ?";
         
-        String Sql = "UPDATE sql10413110.Person SET "
-                + "(Nombre = ?, "
-                + "Apellido = ?,"
-                + " Dirección = ? , "
-                + "Teléfono = ?"
-                + " WHERE id = ?" ;
-        
-        try{
-            PreparedStatement pps = conexiondb.prepareStatement(Sql);
+       
+        try (PreparedStatement pstm = conexiondb.prepareStatement(sSQL)) {
             
-            pps.setString(1, txtNombre.getText());
-            pps.setString(2, txtApellido.getText());
-            pps.setString(3, txtDireccion.getText());
-            pps.setString(4, txtTelefono.getText());
-            pps.setString(5, ID);
-            
-            pps.executeUpdate();
+            int Fila = tblRegistrodb.getSelectedRow();
+            String ID = tblRegistrodb.getValueAt(Fila, 0).toString();
+
+            pstm.setString(1, txtNombre.getText());
+            pstm.setString(2, txtApellido.getText());
+            pstm.setString(3, txtDireccion.getText());
+            pstm.setString(4, txtTelefono.getText());
+            pstm.setInt(5, Fila);
+         
+            pstm.executeUpdate();
             
             Limpiar();
             MostrarDatosDB();
            
-           JOptionPane.showMessageDialog(null, "Dato actuzalizado exitosamente");
-          
-        } catch(Exception e ){
-            JOptionPane.showMessageDialog(null, "Error al actualizar los datos");
+            JOptionPane.showMessageDialog(null, "Dato actuzalizado exitosamente");
+            
+        } catch (Exception e){
+             JOptionPane.showMessageDialog(null, "SQLException:\n" + e, "Error: actualizar(Dato_usuario d_usr)", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -468,11 +468,8 @@ public class PersonForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Usuario eliminado con éxito");
             } catch (Exception e){
                 JOptionPane.showMessageDialog(null, "Error al eliminar los datos");
-            }
-            
-            
+            }  
         }
-        
     }
     
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
@@ -526,7 +523,7 @@ public class PersonForm extends javax.swing.JFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
-        ActualizarDatodb();
+        Actualizar();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
