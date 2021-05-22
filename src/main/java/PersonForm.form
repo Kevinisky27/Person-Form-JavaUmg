@@ -88,11 +88,6 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="txtBuscarDB" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnBuscarDB" min="-2" pref="124" max="-2" attributes="0"/>
-                      </Group>
                       <Component id="jScrollPane1" alignment="1" min="-2" pref="656" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -104,12 +99,7 @@
               <Component id="jPanel2" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="btnBuscarDB" pref="38" max="32767" attributes="0"/>
-                      <Component id="txtBuscarDB" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="329" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="373" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel8" alignment="3" max="32767" attributes="0"/>
@@ -390,21 +380,6 @@
               <Color blue="73" green="73" red="73" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="by &#x2665; su grupo Favorito"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JToggleButton" name="btnBuscarDB">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="BUSCAR"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarDBActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtBuscarDB">
-          <Properties>
-            <Property name="caretColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="4d" green="0" red="0" type="rgb"/>
-            </Property>
           </Properties>
         </Component>
       </SubComponents>
