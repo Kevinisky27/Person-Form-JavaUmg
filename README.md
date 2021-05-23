@@ -27,9 +27,6 @@ puesto que esta base de datos está conectada a un servicio en línea, el cual n
 
 ## Integrantes del Grupo No. 2 
 
-Dillinger is currently extended with the following plugins.
-Instructions on how to use them in your own application are linked below.
-
 | Estudiante |     Carnet    |
 | ---------- | ------------- |
 | Erineo C.  | 0907-20-2739  |
