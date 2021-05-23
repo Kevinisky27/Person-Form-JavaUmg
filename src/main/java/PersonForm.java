@@ -24,6 +24,7 @@ public class PersonForm extends javax.swing.JFrame {
 
     MySQLConector ConectorDB = new MySQLConector();
     Connection conexiondb = ConectorDB.Conectar();
+    int SelecPerson;
     
     
     /**
@@ -67,7 +68,6 @@ public class PersonForm extends javax.swing.JFrame {
         jToggleButton4 = new javax.swing.JToggleButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        btnActualizar = new javax.swing.JToggleButton();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblRegistrodb = new javax.swing.JTable();
@@ -170,13 +170,6 @@ public class PersonForm extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(115, 115, 115));
         jLabel6.setText("Derechos reservados - Facultad de Ingeniería  ");
 
-        btnActualizar.setText("Actualizar");
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -184,37 +177,38 @@ public class PersonForm extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jToggleButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addGap(45, 45, 45))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtDireccion)
-                                    .addComponent(txtApellido)
-                                    .addComponent(txtNombre)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
+                                    .addComponent(txtDireccion)
+                                    .addComponent(txtApellido)
+                                    .addComponent(txtNombre)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addGap(28, 28, 28)
-                                .addComponent(jLabel6)))
+                                .addComponent(jLabel6)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
@@ -242,8 +236,7 @@ public class PersonForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -283,6 +276,9 @@ public class PersonForm extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblRegistrodbMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tblRegistrodbMouseEntered(evt);
+            }
         });
         jScrollPane1.setViewportView(tblRegistrodb);
 
@@ -296,7 +292,7 @@ public class PersonForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -422,25 +418,31 @@ public class PersonForm extends javax.swing.JFrame {
     
     
     void Actualizar(){
-        String sSQL = "UPDATE sql10413110.Person SET "
-                + "Nombre = ?"
-                + ",Apellido = ?"
-                + ",Dirección = ?"
-                + ",Teléfono = ?"
-                + ",id = ? "
-                + "WHERE id= ?";
+        //String SQL = "UPDATE sql10413110.Person SET "
+        //    + "Nombre = ?"
+        //    + ",Apellido = ?"
+        //    + ",Dirección = ?"
+        //    + ",Teléfono = ?"
+        //    + ",id = ? "
+        //    + "WHERE id= ?";
+        
+        
+               
         
        
-        try (PreparedStatement pstm = conexiondb.prepareStatement(sSQL)) {
-            
+        try {
             int Fila = tblRegistrodb.getSelectedRow();
             String ID = tblRegistrodb.getValueAt(Fila, 0).toString();
-
+        
+            String SQL = "UPDATE sql10413110.Person SET Nombre = ?,Apellido = ?,Dirección = ?,Teléfono = ?, WHERE id="+ ID +"";
+            
+            PreparedStatement pstm = conexiondb.prepareStatement(SQL);
+            
             pstm.setString(1, txtNombre.getText());
             pstm.setString(2, txtApellido.getText());
             pstm.setString(3, txtDireccion.getText());
             pstm.setString(4, txtTelefono.getText());
-            pstm.setInt(5, Fila);
+            pstm.setString(5, ID);
          
             pstm.executeUpdate();
             pstm.close();
@@ -455,6 +457,37 @@ public class PersonForm extends javax.swing.JFrame {
         }
     }
     
+    
+    public void ModificarPersona(){
+        try {
+            Persona NuevaPersona = new Persona();
+            
+            NuevaPersona.setNombre(txtNombre.getText());
+            NuevaPersona.setApellido(txtApellido.getText());
+            NuevaPersona.setDireccion(txtDireccion.getText());
+            NuevaPersona.setTelefono(txtTelefono.getText());
+            
+            int Fila = tblRegistrodb.getSelectedRow();
+            String ID = tblRegistrodb.getValueAt(Fila, 0).toString();
+            
+            String personaA = tblRegistrodb.getValueAt(Fila, 0).toString();
+            String SQL = "UPDATE sql10413110.Person SET `Nombre`= ?,`Apellido`= ?,`Dirección`= ?,`Teléfono`= ? WHERE  id="+ Integer.parseInt(personaA) +"";
+
+            PreparedStatement pst = conexiondb.prepareStatement(SQL);
+            pst.setString(1, NuevaPersona.getNombre());
+            pst.setString(2, NuevaPersona.getApellido());
+            pst.setString(3, NuevaPersona.getDireccion());
+            pst.setString(4, NuevaPersona.getTelefono());
+            pst.executeUpdate();
+            pst.close();
+            
+            Limpiar();
+            MostrarDatosDB();
+            JOptionPane.showMessageDialog(null, "Dato actuzalizado exitosamente");
+        } catch (Exception e ){
+            JOptionPane.showMessageDialog(null, "Error al actualizar dato");
+        }
+    }
     
     void EliminarDatodb(){
         
@@ -488,7 +521,8 @@ public class PersonForm extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        ModificarDatodb();
+        //ModificarDatodb();
+        ModificarPersona();
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -524,12 +558,18 @@ public class PersonForm extends javax.swing.JFrame {
 
     private void tblRegistrodbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRegistrodbMouseClicked
         // TODO add your handling code here:
+        SelecPerson = tblRegistrodb.rowAtPoint(evt.getPoint());
+        
+        txtNombre.setText(tblRegistrodb.getValueAt(SelecPerson, 1).toString());
+        txtApellido.setText(tblRegistrodb.getValueAt(SelecPerson, 2).toString());
+        txtDireccion.setText(tblRegistrodb.getValueAt(SelecPerson, 3).toString());
+        txtTelefono.setText(tblRegistrodb.getValueAt(SelecPerson, 4).toString());
+       
     }//GEN-LAST:event_tblRegistrodbMouseClicked
 
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+    private void tblRegistrodbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRegistrodbMouseEntered
         // TODO add your handling code here:
-        Actualizar();
-    }//GEN-LAST:event_btnActualizarActionPerformed
+    }//GEN-LAST:event_tblRegistrodbMouseEntered
 
     /**
      * @param args the command line arguments
@@ -567,7 +607,6 @@ public class PersonForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnActualizar;
     private javax.swing.JToggleButton btnAgregar;
     private javax.swing.JToggleButton btnEliminar;
     private javax.swing.JToggleButton btnModificar;
